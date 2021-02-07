@@ -34,7 +34,7 @@ public class driverConfig {
 			File app = new File(appDir, "Amazon_shopping.apk");
 			Assert.assertEquals(true, app.exists());
 			
-			
+			//Check userData.properties file for the data changes
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			capabilities.setCapability("automationName", getInputData("automationName", "userData"));
 			capabilities.setCapability("platformName", getInputData("platformName", "userData")); 
