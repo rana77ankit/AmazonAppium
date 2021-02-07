@@ -36,30 +36,29 @@ public class driverConfig {
 			
 			//Check userData.properties file for the data changes
 			DesiredCapabilities capabilities = new DesiredCapabilities();
-			capabilities.setCapability("automationName", getInputData("automationName", "userData"));
-			capabilities.setCapability("platformName", getInputData("platformName", "userData")); 
-			capabilities.setCapability("platformVersion", getInputData("platformVersion", "userData"));
-			capabilities.setCapability("deviceName", getInputData("automationName", "userData"));
-			capabilities.setCapability("udid", getInputData("udid", "userData"));
+			capabilities.setCapability("automationName", getFileData("automationName", "userData"));
+			capabilities.setCapability("platformName", getFileData("platformName", "userData")); 
+			capabilities.setCapability("platformVersion", getFileData("platformVersion", "userData"));
+			capabilities.setCapability("deviceName", getFileData("automationName", "userData"));
+			capabilities.setCapability("udid", getFileData("udid", "userData"));
 			capabilities.setCapability("app", app.getAbsolutePath());
 			
-			capabilities.setCapability("appPackage", getInputData("appPackage", "userData"));
-			capabilities.setCapability("appActivity", getInputData("appActivity", "userData"));
+			capabilities.setCapability("appPackage", getFileData("appPackage", "userData"));
+			capabilities.setCapability("appActivity", getFileData("appActivity", "userData"));
 	
-			capabilities.setCapability("noReset", Boolean.parseBoolean(getInputData("noReset", "userData")));
+			capabilities.setCapability("noReset", Boolean.parseBoolean(getFileData("noReset", "userData")));
 			
 			driver = new AndroidDriver (new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}		
 
 	}
 	
 	public static void getWebdriverWait(String locator, String type) throws IOException{
-		String waitLocator = getInputData(locator, "locators");
+		String waitLocator = getFileData(locator, "locators");
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		
 		switch(type) {
@@ -73,7 +72,7 @@ public class driverConfig {
 	}
 	
 	public static void isElementVisible(String locator, String type) throws IOException{
-		String waitLocator = getInputData(locator, "locators");
+		String waitLocator = getFileData(locator, "locators");
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		
 		switch(type) {
@@ -86,8 +85,17 @@ public class driverConfig {
 		}
 	}
 
-	public static void clickButton (String locator, String type) throws IOException {
-		String clickButton = getInputData(locator, "locators");
+	protected static Boolean isLocatorDisplyed(String locator, String type) {
+		Boolean visiblity = null;
+		switch(type) {
+			case "xpath"     :	visiblity = driver.findElement(By.xpath(locator)).isDisplayed();
+								break;
+		}
+		return visiblity;
+	}
+
+	public static void clickButton(String locator, String type) throws IOException {
+		String clickButton = getFileData(locator, "locators");
 		switch(type) {
 			case "class" : 	driver.findElementByClassName(clickButton).click();
 						   	break;
@@ -98,7 +106,7 @@ public class driverConfig {
 		}
 	}
 	
-	public static String getInputData(String locator, String fileName) throws IOException  {
+	public static String getFileData(String locator, String fileName) throws IOException  {
 		File classpathRoot = new File(System.getProperty("user.dir"));
 		String activeFile = "/inputs/"+fileName+".properties";
 		File app_prop = new File(classpathRoot, activeFile);
@@ -108,7 +116,22 @@ public class driverConfig {
 		prop.load(fileInput);
 		
 		return (prop.getProperty(locator));
-	}	
+	}
+	
+	
+	public static String getTextFromLocator(String locator, String type) {
+		String getValue = null;
+		switch(type) {
+			case "class" : 	getValue = driver.findElementByClassName(locator).getText();
+						   	break;
+			case "xpath" : 	getValue = driver.findElement(By.xpath(locator)).getText();
+							break;
+			case "id" : 	getValue = driver.findElementById(locator).getText();
+							break;
+		}		
+		
+		return getValue;		
+	}
 	
 	
 	public static void sendText(String username, String password) throws IOException {
@@ -138,12 +161,13 @@ public class driverConfig {
 		getWebdriverWait("menuBar", "xpath");
 	}
 	
-	public static void selectProduct(String inputData) throws IOException {
+	public static void selectProduct(String inputData) throws IOException, InterruptedException {
 		
 		getWebdriverWait("menuBar", "xpath");
 
 		MobileElement el1 = (MobileElement) driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'VU 163 cm')]"));
 		el1.click();
+		Thread.sleep(2000);
 		
 		getWebdriverWait("menuBar", "xpath");
 		swipeUp(driver);
@@ -180,8 +204,8 @@ public class driverConfig {
 		String actualName = driver.findElement(By.xpath("(//android.widget.TextView[contains(@text,'VU')])[1]")).getText().replaceAll("(?<=TV).*$", "");
 		String actualPrice = driver.findElement(By.xpath("((//android.widget.TextView[contains(@text,'VU')])[1]/parent::android.view.View/following-sibling::*/*)[1]")).getText().replaceAll("[^0-9,.]", "");
 		
-		String expectedName = getInputData("expectedName", "setData");
-		String expectedPrice = getInputData("expectedPrice", "setData");
+		String expectedName = getFileData("expectedName", "setData");
+		String expectedPrice = getFileData("expectedPrice", "setData");
 		
 		Assert.assertEquals(actualName, expectedName);
 		Assert.assertEquals(actualPrice, expectedPrice);
@@ -192,33 +216,26 @@ public class driverConfig {
 	public static void swipeUp(AndroidDriver driver) throws IOException{
 		try {
 			int heightOfScreen = driver.manage().window().getSize().getHeight();
-			int widthOfScreen = driver.manage().window().getSize().getWidth();        
-
-			int middleHeightOfScreen = heightOfScreen/2;
+			int widthOfScreen = driver.manage().window().getSize().getWidth();
 			
 			// To get 1.2 times of width
 			int x = (int) (widthOfScreen * 1.2);
 			// To get 15% of height
 			int y = (int) (heightOfScreen * 0.15);
 
+			TouchAction swipe;
 			boolean addToCart = false;
-			while(addToCart != true) {
-				TouchAction swipe = new TouchAction(driver)
+			do {
+				 new TouchAction(driver)
 						.press(PointOption.point(0,x))
 						.waitAction()
 						.moveTo(PointOption.point(0,y))
 						.release()
 						.perform();
+
+				addToCart = isLocatorDisplyed(getFileData("addToCart", "locators") , "xpath");
 				
-				try {
-					isElementVisible("addToCart", "xpath");
-					addToCart = true;
-				}
-				catch(Exception e) {
-					addToCart = false;
-				}
-				
-			}
+			} while(addToCart != true);
 		}
 		catch(NoSuchElementException e) {
 			e.printStackTrace();

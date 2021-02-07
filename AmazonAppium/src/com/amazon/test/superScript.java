@@ -26,7 +26,7 @@ public class superScript extends driverConfig {
 	
 	//search item and verify it's details
 	@Test(priority=2)
-	public void purchaseItem() throws IOException {
+	public void purchaseItem() throws IOException, InterruptedException {
 		searchProduct.searchTV();
 		searchProduct.validateProductDetails();
 	}
