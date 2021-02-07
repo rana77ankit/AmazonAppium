@@ -7,6 +7,7 @@
         <methods>
           <include name="purchaseItem"/>
           <include name="openAmazonApp"/>
+          <include name="loginAmazon"/>
           <include name="closeAmazonApp"/>
         </methods>
       </class> <!-- com.amazon.test.superScript -->

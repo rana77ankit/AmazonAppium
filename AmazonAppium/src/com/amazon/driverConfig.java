@@ -34,21 +34,19 @@ public class driverConfig {
 			File app = new File(appDir, "Amazon_shopping.apk");
 			Assert.assertEquals(true, app.exists());
 			
-			DesiredCapabilities capabilities = new DesiredCapabilities();			
-			capabilities.setCapability("BROWSER_NAME", "Android");
-			capabilities.setCapability("automationName", "Appium");
-			capabilities.setCapability("platformName","Android");
-			capabilities.setCapability("platformVersion", "9.1.0");
-			capabilities.setCapability("deviceName","Honor Play");
-			capabilities.setCapability("udid", "CRV7N18829001395");
-			capabilities.setCapability("unicodeKeyboard", "true");                                     
-			capabilities.setCapability("resetKeyboard", "true");
+			
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setCapability("automationName", getInputData("automationName", "userData"));
+			capabilities.setCapability("platformName", getInputData("platformName", "userData")); 
+			capabilities.setCapability("platformVersion", getInputData("platformVersion", "userData"));
+			capabilities.setCapability("deviceName", getInputData("automationName", "userData"));
+			capabilities.setCapability("udid", getInputData("udid", "userData"));
 			capabilities.setCapability("app", app.getAbsolutePath());
 			
-			capabilities.setCapability("appPackage", "com.amazon.mShop.android.shopping");
-			capabilities.setCapability("appActivity", "com.amazon.mShop.home.HomeActivity");
+			capabilities.setCapability("appPackage", getInputData("appPackage", "userData"));
+			capabilities.setCapability("appActivity", getInputData("appActivity", "userData"));
 	
-			capabilities.setCapability("noReset", false);
+			capabilities.setCapability("noReset", Boolean.parseBoolean(getInputData("noReset", "userData")));
 			
 			driver = new AndroidDriver (new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
