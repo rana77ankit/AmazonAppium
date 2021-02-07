@@ -2,24 +2,24 @@
 <testng-results skipped="0" failed="0" ignored="0" total="2" passed="2">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="42057" started-at="2021-02-07T08:19:57 IST" finished-at="2021-02-07T08:20:39 IST">
+  <suite name="Default suite" duration-ms="40982" started-at="2021-02-07T08:36:41 IST" finished-at="2021-02-07T08:37:22 IST">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="42057" started-at="2021-02-07T08:19:57 IST" finished-at="2021-02-07T08:20:39 IST">
+    <test name="Default test" duration-ms="40982" started-at="2021-02-07T08:36:41 IST" finished-at="2021-02-07T08:37:22 IST">
       <class name="com.amazon.test.superScript">
-        <test-method status="PASS" signature="openAmazonApp()[pri:0, instance:com.amazon.test.superScript@57e1b0c]" name="openAmazonApp" is-config="true" duration-ms="17605" started-at="2021-02-07T08:19:40 IST" finished-at="2021-02-07T08:19:57 IST">
+        <test-method status="PASS" signature="openAmazonApp()[pri:0, instance:com.amazon.test.superScript@57e1b0c]" name="openAmazonApp" is-config="true" duration-ms="14222" started-at="2021-02-07T08:36:26 IST" finished-at="2021-02-07T08:36:41 IST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- openAmazonApp -->
-        <test-method status="PASS" signature="loginAmazon()[pri:1, instance:com.amazon.test.superScript@57e1b0c]" name="loginAmazon" duration-ms="18541" started-at="2021-02-07T08:19:57 IST" finished-at="2021-02-07T08:20:16 IST">
+        <test-method status="PASS" signature="loginAmazon()[pri:1, instance:com.amazon.test.superScript@57e1b0c]" name="loginAmazon" duration-ms="16634" started-at="2021-02-07T08:36:41 IST" finished-at="2021-02-07T08:36:57 IST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- loginAmazon -->
-        <test-method status="PASS" signature="purchaseItem()[pri:2, instance:com.amazon.test.superScript@57e1b0c]" name="purchaseItem" duration-ms="23474" started-at="2021-02-07T08:20:16 IST" finished-at="2021-02-07T08:20:39 IST">
+        <test-method status="PASS" signature="purchaseItem()[pri:2, instance:com.amazon.test.superScript@57e1b0c]" name="purchaseItem" duration-ms="24312" started-at="2021-02-07T08:36:57 IST" finished-at="2021-02-07T08:37:22 IST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- purchaseItem -->
-        <test-method status="PASS" signature="closeAmazonApp()[pri:0, instance:com.amazon.test.superScript@57e1b0c]" name="closeAmazonApp" is-config="true" duration-ms="564" started-at="2021-02-07T08:20:39 IST" finished-at="2021-02-07T08:20:40 IST">
+        <test-method status="PASS" signature="closeAmazonApp()[pri:0, instance:com.amazon.test.superScript@57e1b0c]" name="closeAmazonApp" is-config="true" duration-ms="485" started-at="2021-02-07T08:37:22 IST" finished-at="2021-02-07T08:37:22 IST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- closeAmazonApp -->
