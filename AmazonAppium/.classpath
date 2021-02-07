@@ -3,16 +3,16 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.testng.TESTNG_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/byte-buddy-1.8.15.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/client-combined-3.141.59.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/client-combined-3.141.59-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/commons-exec-1.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/commons-lang3-3.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/guava-25.0-jre.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/java-client-7.3.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/jxl-2.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/okhttp-3.11.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/okio-1.14.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ankitran/eclipse-workspace/AmazonAppium/libs/selenium-android-driver-2.39.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/byte-buddy-1.8.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/client-combined-3.141.59.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/client-combined-3.141.59-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/commons-exec-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/commons-lang3-3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/guava-25.0-jre.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/java-client-7.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/jxl-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/okhttp-3.11.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/okio-1.14.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ankitran/git/AmazonAppium/AmazonAppium/libs/selenium-android-driver-2.39.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

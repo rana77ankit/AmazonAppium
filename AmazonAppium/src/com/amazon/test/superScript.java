@@ -28,12 +28,12 @@ public class superScript extends driverConfig {
 	@Test(priority=2)
 	public void purchaseItem() throws IOException {
 		searchProduct.searchTV();
+		searchProduct.validateProductDetails();
 	}
 
 	@AfterSuite
 	public void closeAmazonApp() throws MalformedURLException {
 		quitDriver();
-		System.out.println("end");
 	}
 	
 	

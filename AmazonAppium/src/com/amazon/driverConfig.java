@@ -2,7 +2,9 @@ package com.amazon;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
@@ -10,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,6 +21,8 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.touch.offset.PointOption;
 
 public class driverConfig {
@@ -29,17 +32,17 @@ public class driverConfig {
 		try {
 			File appDir = new File("apk");
 			File app = new File(appDir, "Amazon_shopping.apk");
-
 			Assert.assertEquals(true, app.exists());
 			
-			DesiredCapabilities capabilities = new DesiredCapabilities();
-			
+			DesiredCapabilities capabilities = new DesiredCapabilities();			
 			capabilities.setCapability("BROWSER_NAME", "Android");
 			capabilities.setCapability("automationName", "Appium");
 			capabilities.setCapability("platformName","Android");
 			capabilities.setCapability("platformVersion", "9.1.0");
 			capabilities.setCapability("deviceName","Honor Play");
 			capabilities.setCapability("udid", "CRV7N18829001395");
+			capabilities.setCapability("unicodeKeyboard", "true");                                     
+			capabilities.setCapability("resetKeyboard", "true");
 			capabilities.setCapability("app", app.getAbsolutePath());
 			
 			capabilities.setCapability("appPackage", "com.amazon.mShop.android.shopping");
@@ -60,8 +63,9 @@ public class driverConfig {
 	public static void getWebdriverWait(String locator, String type) throws IOException{
 		String waitLocator = getInputData(locator, "locators");
 		WebDriverWait wait = new WebDriverWait(driver, 10);
+		
 		switch(type) {
-			case "className" : 	wait.until(ExpectedConditions.presenceOfElementLocated(By.className(waitLocator)));
+			case "className" : 	wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy.className(waitLocator)));
 						   	  	break;
 			case "xpath"     :	wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(waitLocator)));
 								break;
@@ -70,14 +74,28 @@ public class driverConfig {
 		}
 	}
 	
+	public static void isElementVisible(String locator, String type) throws IOException{
+		String waitLocator = getInputData(locator, "locators");
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		
+		switch(type) {
+			case "className" : 	wait.until(ExpectedConditions.visibilityOfElementLocated(MobileBy.className(waitLocator)));
+						   	  	break;
+			case "xpath"     :	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(waitLocator)));
+								break;
+			case "id"        :  wait.until(ExpectedConditions.visibilityOfElementLocated(MobileBy.id(waitLocator)));
+			                    break;			
+		}
+	}
+
 	public static void clickButton (String locator, String type) throws IOException {
 		String clickButton = getInputData(locator, "locators");
 		switch(type) {
-			case "class" : 	driver.findElement(By.className(clickButton)).click();
+			case "class" : 	driver.findElementByClassName(clickButton).click();
 						   	break;
 			case "xpath" : 	driver.findElement(By.xpath(clickButton)).click();
 							break;
-			case "id" : 	driver.findElement(By.xpath(clickButton)).click();
+			case "id" : 	driver.findElementById(clickButton).click();
 							break;
 		}
 	}
@@ -92,8 +110,7 @@ public class driverConfig {
 		prop.load(fileInput);
 		
 		return (prop.getProperty(locator));
-	}
-	
+	}	
 	
 	
 	public static void sendText(String username, String password) throws IOException {
@@ -115,31 +132,29 @@ public class driverConfig {
 	
 	public static void sendText(String srchTV) throws IOException {		
 
-		getWebdriverWait("menuBar", "id");
-		MobileElement el1 = (MobileElement) driver.findElementById("com.amazon.mShop.android.shopping:id/rs_search_src_text");
-		el1.setValue(srchTV);
-		driver.findElement(By.xpath("(//*[@resource-id='com.amazon.mShop.android.shopping:id/iss_search_dropdown_item_text'])[1]")).click();
+		getWebdriverWait("menuBar", "xpath");
+		MobileElement element1 = (MobileElement) driver.findElementById("com.amazon.mShop.android.shopping:id/rs_search_src_text");
+		element1.setValue(srchTV);
+		((AndroidDriver<MobileElement>) driver).pressKey(new KeyEvent(AndroidKey.ENTER));		
 		
-		
-		getWebdriverWait("menuBar", "id");
+		getWebdriverWait("menuBar", "xpath");
 	}
 	
 	public static void selectProduct(String inputData) throws IOException {
 		
-		getWebdriverWait("menuBar", "id");
+		getWebdriverWait("menuBar", "xpath");
 
-		MobileElement el1 = (MobileElement) driver.findElement(By.xpath("//android.widget.TextView[@text='VU 163 cm (65 Inches) 4K Ultra HD Smart Android LED TV 65PM (Black) (2020 Model)']"));
+		MobileElement el1 = (MobileElement) driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'VU 163 cm')]"));
 		el1.click();
 		
-		getWebdriverWait("menuBar", "id");
+		getWebdriverWait("menuBar", "xpath");
 		swipeUp(driver);
-		addToCart();
 	}
 	
 	public static void addToCart() throws IOException {
 		MobileElement element = (MobileElement)driver.findElementById("add-to-cart-button");
 		element.click();
-		getWebdriverWait("menuBar", "id");
+		getWebdriverWait("menuBar", "xpath");
 		
 
 		MobileElement cart = (MobileElement)driver.findElementByAccessibilityId("Cart");
@@ -147,32 +162,64 @@ public class driverConfig {
 		getWebdriverWait("proceedToBuy", "xpath");
 	}
 
+	protected static void GetProductData() {
+		String TVName = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'VU 163 cm')]")).getText().replaceAll("(?<=TV).*$", "");
+		String TVPrice = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'₹')]")).getText().trim();
+		String[] TVPriceSplit = TVPrice.replaceAll("[^0-9,. ]", "").split(" ");
+		
+		Properties properties = new Properties();
+		try(OutputStream outputStream = new FileOutputStream("inputs/setData.properties")) {  
+		    properties.setProperty("expectedName", TVName);
+		    properties.setProperty("expectedPrice", TVPriceSplit[0]);
+		    properties.store(outputStream, null);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
+	
+	//Check on cart and validate price and name of prooduct
+	protected static void validateProductDetails() throws IOException {
+		String actualName = driver.findElement(By.xpath("(//android.widget.TextView[contains(@text,'VU')])[1]")).getText().replaceAll("(?<=TV).*$", "");
+		String actualPrice = driver.findElement(By.xpath("((//android.widget.TextView[contains(@text,'VU')])[1]/parent::android.view.View/following-sibling::*/*)[1]")).getText().replaceAll("[^0-9,.]", "");
+		
+		String expectedName = getInputData("expectedName", "setData");
+		String expectedPrice = getInputData("expectedPrice", "setData");
+		
+		Assert.assertEquals(actualName, expectedName);
+		Assert.assertEquals(actualPrice, expectedPrice);
+		
+	}
+
 	//Function to Swipe up
-	public static void swipeUp(AndroidDriver driver){
+	public static void swipeUp(AndroidDriver driver) throws IOException{
 		try {
 			int heightOfScreen = driver.manage().window().getSize().getHeight();
 			int widthOfScreen = driver.manage().window().getSize().getWidth();        
 
 			int middleHeightOfScreen = heightOfScreen/2;
-			// To get 85% of width
-
+			
+			// To get 1.2 times of width
 			int x = (int) (widthOfScreen * 1.2);
-			// To get 25% of height
-			int y = (int) (heightOfScreen * 0.17);
-			System.out.println(x+"::"+y);
-			System.out.println(widthOfScreen+"::"+heightOfScreen);
+			// To get 15% of height
+			int y = (int) (heightOfScreen * 0.15);
 
 			boolean addToCart = false;
 			while(addToCart != true) {
 				TouchAction swipe = new TouchAction(driver)
-						.press(PointOption.point(0,1300))
+						.press(PointOption.point(0,x))
 						.waitAction()
-						.moveTo(PointOption.point(0,380))
+						.moveTo(PointOption.point(0,y))
 						.release()
 						.perform();
 				
-				MobileElement element = (MobileElement)driver.findElementById("add-to-cart-button");
-				addToCart = element.isDisplayed();
+				try {
+					isElementVisible("addToCart", "xpath");
+					addToCart = true;
+				}
+				catch(Exception e) {
+					addToCart = false;
+				}
+				
 			}
 		}
 		catch(NoSuchElementException e) {
