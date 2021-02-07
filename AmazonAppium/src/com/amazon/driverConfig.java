@@ -128,23 +128,38 @@ public class driverConfig {
 							break;
 			case "id" : 	getValue = driver.findElementById(locator).getText();
 							break;
-		}		
+		}
 		
 		return getValue;		
+	}
+	
+	public static void sendTextValue(String locator, String type, String value) {
+		MobileElement sendValue = null;
+		switch(type) {
+			case "xpath" : 	sendValue = (MobileElement)driver.findElement(By.xpath(locator));
+							break;
+			case "id" : 	sendValue = (MobileElement)driver.findElementById(locator);
+							break;
+		}
+		sendValue.setValue(value);
 	}
 	
 	
 	public static void sendText(String username, String password) throws IOException {
 		
+		//Send Email or username
 		getWebdriverWait("email", "xpath");
-		MobileElement el3 = (MobileElement) driver.findElementById("ap_email_login");
-		el3.setValue(username);
+		sendTextValue("ap_email_login", "id", username);
+		
+		//Click on continue
 		MobileElement submit = (MobileElement) driver.findElement(By.xpath("//android.widget.Button[@text='Continue']"));
 		submit.click();		
 
+		//Send password
 		getWebdriverWait("password", "id");
-		MobileElement el5 = (MobileElement) driver.findElementById("ap_password");
-		el5.setValue(password);
+		sendTextValue("ap_password", "id", password);
+		
+		//Click on Sign-In
 		MobileElement el6 = (MobileElement) driver.findElementById("signInSubmit");
 		el6.click();
 		
@@ -244,6 +259,6 @@ public class driverConfig {
 	}
 
 	public void quitDriver() {
-		driver.closeApp();
+//		driver.closeApp();
 	}
 }

@@ -17,7 +17,5 @@ public class loginUser extends driverConfig {
 		Boolean condition = isLocatorDisplyed(getFileData("amazonLogo", "locators") , "xpath");
 		Assert.assertTrue(condition);
 		
-	
-		
 	}
 }
